@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Элеонора  Титаренко](https://up.htmlacademy.ru/javascript/19/user/1120597).
-* Наставник: `Неизвестно`.
+* Наставник: [Екатерина  Кащенко](https://htmlacademy.ru/profile/id109008).
 
 ---
 
