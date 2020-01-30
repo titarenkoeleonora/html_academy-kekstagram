@@ -49,11 +49,11 @@ var createComment = function (messageText) {
   return comments;
 };
 
-var picturesArray = function (count) {
+var createPicturesArray = function () {
   var photos = [];
-  for (var i = 0; i < count; i++) {
+  for (var i = 1; i <= PICTURE_COUNT; i++) {
     photos.push({
-      url: 'photos/' + (i + 1) + '.jpg',
+      url: 'photos/' + i + '.jpg',
       description: 'Описание фотографии',
       likes: getRandomIntInclusive(15, 200),
       comments: createComment(MESSAGE_TEXT)
@@ -62,12 +62,13 @@ var picturesArray = function (count) {
   return photos;
 };
 
-var photos = picturesArray(PICTURE_COUNT);
-var photosTemplate = document.querySelector('#picture').content.querySelector('.picture');
+var photos = createPicturesArray(PICTURE_COUNT);
 
-var renderPicture = function () {
+var renderPicture = function (photo) {
+  var photosTemplate = document.querySelector('#picture').content.querySelector('.picture');
   var pictureElement = photosTemplate.cloneNode(true);
-  pictureElement.querySelector('.picture__img').src = photos.url;
+
+  pictureElement.querySelector('.picture__img').src = photo.url;
   pictureElement.querySelector('.picture__comments').textContent = photos.comments;
   pictureElement.querySelector('.picture__likes').textContent = photos.likes;
 
