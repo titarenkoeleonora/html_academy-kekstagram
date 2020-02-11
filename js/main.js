@@ -10,6 +10,9 @@ var MESSAGE_TEXT = [
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
+var HASHTAGS_MIN_SYMBOLS_COUNT = 2;
+var HASHTAGS_MIN_COUNT = 5;
+var HASHTAGS_MAX_COUNT = 20;
 
 
 var getRandomElement = function (arr) {
@@ -253,21 +256,21 @@ inputHashtag.addEventListener('input', function (evt) {
       return;
     }
 
-    if (hashtag.length < 2) {
+    if (hashtag.length < HASHTAGS_MIN_SYMBOLS_COUNT) {
       evt.target.setCustomValidity('Хэш-тег не может состоять только из одной решётки');
       setErrorRedLine(evt);
 
       return;
     }
 
-    if (hashtag.length > 20) {
+    if (hashtag.length > HASHTAGS_MAX_COUNT) {
       evt.target.setCustomValidity('Хэш-тег не должен быть длинее 20 символов');
       setErrorRedLine(evt);
 
       return;
     }
 
-    if (hashtagsArray.length > 5) {
+    if (hashtagsArray.length > HASHTAGS_MIN_COUNT) {
       evt.target.setCustomValidity('Вы ввели более 5 хэш-тегов!');
       setErrorRedLine(evt);
 
