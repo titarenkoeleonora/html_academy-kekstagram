@@ -10,6 +10,9 @@ var MESSAGE_TEXT = [
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
+var HASHTAGS_MIN_SYMBOLS_COUNT = 2;
+var HASHTAGS_MIN_COUNT = 5;
+var HASHTAGS_MAX_COUNT = 20;
 
 
 var getRandomElement = function (arr) {
@@ -86,3 +89,273 @@ var createPicture = function () {
 };
 
 createPicture();
+
+// Задание 4.2
+// Открытие и закрытие формы редактирования фото
+
+var pageBody = document.querySelector('body');
+var uploadFile = document.querySelector('#upload-file');
+var uploadForm = document.querySelector('.img-upload__overlay');
+var uploadCancel = document.querySelector('#upload-cancel');
+
+var ESC_KEY = 'Escape';
+var ENTER_KEY = 'Enter';
+
+var closePopup = function () {
+  uploadForm.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+var onPopupEscPress = function (evt) {
+  if (evt.key === ESC_KEY) {
+    closePopup();
+  }
+};
+
+uploadCancel.addEventListener('keydown', function (evt) {
+  if (evt.key === ENTER_KEY) {
+    closePopup();
+  }
+});
+
+pageBody.addEventListener('keydown', onPopupEscPress);
+
+uploadFile.addEventListener('change', function () {
+  pageBody.classList.add('modal-open');
+});
+
+uploadFile.addEventListener('change', function () {
+  uploadForm.classList.remove('hidden');
+});
+
+uploadCancel.addEventListener('click', function () {
+  closePopup();
+});
+
+// Смена эффектов и скрытие слайдера на эффекте "Оригинал"
+
+var imgUploadPreview = document.querySelector('.img-upload__preview');
+var imgUploadPhoto = document.querySelector('#img-upload__photo');
+var effects = document.querySelector('.effects');
+var effectLevel = document.querySelector('.effect-level');
+
+uploadFile.addEventListener('change', function () {
+  effectLevel.classList.add('hidden');
+});
+
+var filterChangeHandler = function (evt) {
+  var currentFilter = evt.target.value;
+  if (evt.target && evt.target.matches('input[type="radio"]')) {
+    imgUploadPhoto.removeAttribute('class');
+    imgUploadPhoto.classList.add('effects__preview--' + currentFilter);
+    if (evt.target.value !== 'none') {
+      effectLevel.classList.remove('hidden');
+    } else {
+      effectLevel.classList.add('hidden');
+    }
+  }
+};
+
+effects.addEventListener('change', filterChangeHandler);
+
+// Слайдер смены интенсивности эффекта
+
+var effectLevelPin = document.querySelector('.effect-level__pin');
+// var effectLevelLine = document.querySelector('.effect-level__line');
+
+effectLevelPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+    };
+
+    effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift.x) + 'px';
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
+
+
+// Размер изображения (пока без процентов)
+
+// var scaleMin = 25;
+// var scaleMax = 100;
+// var scaleStep = 25;
+var scaleControlSmaller = document.querySelector('.scale__control--smaller');
+var scaleControlBigger = document.querySelector('.scale__control--bigger');
+var scaleControlValue = document.querySelector('.scale__control--value');
+scaleControlValue.value = '100%';
+
+// scaleControlValue.value = scaleMax;
+// var currentValue = scaleControlValue.value;
+
+// scaleControlSmaller.addEventListener('click', function () {
+//   if (currentValue > scaleMin) {
+//     currentValue = scaleControlValue.value - scaleStep;
+//     scaleControlValue.value = currentValue;
+//     imgUploadPreview.style.transform = 'scale(' + currentValue / 100 + ')';
+//   }
+//   return currentValue;
+// });
+
+// scaleControlBigger.addEventListener('click', function () {
+//   if (currentValue < scaleMax) {
+//     currentValue = currentValue + scaleStep;
+//     scaleControlValue.value = currentValue;
+//     imgUploadPreview.style.transform = 'scale(' + currentValue / 100 + ')';
+//   }
+//   return currentValue;
+// });
+
+var setControlValueInc = function (evt) {
+  evt.preventDefault();
+  switch (scaleControlValue.value) {
+    case '25%':
+      scaleControlValue.value = '50%';
+      getTransformImage(imgUploadPreview, 0.5);
+      break;
+    case '50%':
+      scaleControlValue.value = '75%';
+      getTransformImage(imgUploadPreview, 0.75);
+      break;
+    case '75%':
+      scaleControlValue.value = '100%';
+      getTransformImage(imgUploadPreview, 1);
+      break;
+  }
+};
+
+var setControlValueDec = function (evt) {
+  evt.preventDefault();
+  switch (scaleControlValue.value) {
+    case '50%':
+      scaleControlValue.value = '25%';
+      getTransformImage(imgUploadPreview, 0.25);
+      break;
+    case '75%':
+      scaleControlValue.value = '50%';
+      getTransformImage(imgUploadPreview, 0.5);
+      break;
+    case '100%':
+      scaleControlValue.value = '75%';
+      getTransformImage(imgUploadPreview, 0.75);
+      break;
+  }
+};
+
+var getTransformImage = function (elementOfTransform, valueOfScale) {
+  elementOfTransform.style.transform = 'scale(' + (valueOfScale) + ')';
+};
+
+scaleControlBigger.addEventListener('click', setControlValueInc);
+scaleControlSmaller.addEventListener('click', setControlValueDec);
+
+// Валидация хештегов
+
+var inputHashtag = document.querySelector('.text__hashtags');
+
+var setErrorRedLine = function (evt) {
+  evt.target.style.border = '2px solid red';
+};
+
+var error = '';
+
+var val = function (evt) {
+  evt.target.setCustomValidity(error);
+  setErrorRedLine(evt);
+
+  return;
+};
+
+var findDuplicateElements = function (elements) {
+  var duplicatesExist = false;
+  var etalon = '';
+  if (elements.length > 1) {
+    for (var i = 0; i < elements.length; i++) {
+      etalon = elements[i];
+      for (var j = i + 1; j < elements.length; j++) {
+        if (etalon === elements[j]) {
+          duplicatesExist = true;
+        }
+      }
+    }
+  }
+
+  return duplicatesExist;
+};
+
+inputHashtag.addEventListener('input', function (evt) {
+  var hashtagsArray = evt.target.value.toLowerCase().split(' ');
+
+  for (var i = 0; i < hashtagsArray.length; i++) {
+    var hashtag = hashtagsArray[i];
+
+    if (!hashtag.match(/^([#])([0-9a-zA-Zа-яёА-ЯЁ]{1,19})$/g)) {
+      // evt.target.setCustomValidity('Строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т.п.), символы пунктуации (тире, дефис, запятая и т.п.), эмодзи и т.д.');
+      // setErrorRedLine(evt);
+
+      // return;
+      error = 'Строка после решётки должна состоять из букв и чисел';
+      val();
+      return;
+    }
+
+    if (hashtag.indexOf('#', 0) !== 0) {
+      evt.target.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
+      setErrorRedLine(evt);
+
+      return;
+    }
+
+    if (hashtag.length < HASHTAGS_MIN_SYMBOLS_COUNT) {
+      evt.target.setCustomValidity('Хэш-тег не может состоять только из одной решётки');
+      setErrorRedLine(evt);
+
+      return;
+    }
+
+    if (hashtag.length > HASHTAGS_MAX_COUNT) {
+      evt.target.setCustomValidity('Хэш-тег не должен быть длинее 20 символов');
+      setErrorRedLine(evt);
+
+      return;
+    }
+
+    if (findDuplicateElements(hashtagsArray)) {
+      evt.target.setCustomValidity('Один хештег не может быть использован дважды');
+      setErrorRedLine(evt);
+
+      return;
+    }
+
+    if (hashtagsArray.length > HASHTAGS_MIN_COUNT) {
+      evt.target.setCustomValidity('Вы ввели более 5 хэш-тегов!');
+      setErrorRedLine(evt);
+
+      return;
+    }
+
+    evt.target.setCustomValidity('');
+    evt.target.style.border = '';
+  }
+});
