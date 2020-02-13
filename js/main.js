@@ -278,6 +278,15 @@ var setErrorRedLine = function (evt) {
   evt.target.style.border = '2px solid red';
 };
 
+var error = '';
+
+var val = function (evt) {
+  evt.target.setCustomValidity(error);
+  setErrorRedLine(evt);
+
+  return;
+};
+
 var findDuplicateElements = function (elements) {
   var duplicatesExist = false;
   var etalon = '';
@@ -302,9 +311,12 @@ inputHashtag.addEventListener('input', function (evt) {
     var hashtag = hashtagsArray[i];
 
     if (!hashtag.match(/^([#])([0-9a-zA-Zа-яёА-ЯЁ]{1,19})$/g)) {
-      evt.target.setCustomValidity('Строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т.п.), символы пунктуации (тире, дефис, запятая и т.п.), эмодзи и т.д.');
-      setErrorRedLine(evt);
+      // evt.target.setCustomValidity('Строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т.п.), символы пунктуации (тире, дефис, запятая и т.п.), эмодзи и т.д.');
+      // setErrorRedLine(evt);
 
+      // return;
+      error = 'Строка после решётки должна состоять из букв и чисел';
+      val();
       return;
     }
 
