@@ -198,33 +198,77 @@ effectLevelPin.addEventListener('mousedown', function (evt) {
 
 // Размер изображения (пока без процентов)
 
-var scaleMin = 25;
-var scaleMax = 100;
-var scaleStep = 25;
+// var scaleMin = 25;
+// var scaleMax = 100;
+// var scaleStep = 25;
 var scaleControlSmaller = document.querySelector('.scale__control--smaller');
 var scaleControlBigger = document.querySelector('.scale__control--bigger');
 var scaleControlValue = document.querySelector('.scale__control--value');
+scaleControlValue.value = '100%';
 
-scaleControlValue.value = scaleMax;
-var currentValue = scaleControlValue.value;
+// scaleControlValue.value = scaleMax;
+// var currentValue = scaleControlValue.value;
 
-scaleControlSmaller.addEventListener('click', function () {
-  if (currentValue > scaleMin) {
-    currentValue = scaleControlValue.value - scaleStep;
-    scaleControlValue.value = currentValue;
-    imgUploadPreview.style.transform = 'scale(' + currentValue / 100 + ')';
+// scaleControlSmaller.addEventListener('click', function () {
+//   if (currentValue > scaleMin) {
+//     currentValue = scaleControlValue.value - scaleStep;
+//     scaleControlValue.value = currentValue;
+//     imgUploadPreview.style.transform = 'scale(' + currentValue / 100 + ')';
+//   }
+//   return currentValue;
+// });
+
+// scaleControlBigger.addEventListener('click', function () {
+//   if (currentValue < scaleMax) {
+//     currentValue = currentValue + scaleStep;
+//     scaleControlValue.value = currentValue;
+//     imgUploadPreview.style.transform = 'scale(' + currentValue / 100 + ')';
+//   }
+//   return currentValue;
+// });
+
+var setControlValueInc = function (evt) {
+  evt.preventDefault();
+  switch (scaleControlValue.value) {
+    case '25%':
+      scaleControlValue.value = '50%';
+      getTransformImage(imgUploadPreview, 0.5);
+      break;
+    case '50%':
+      scaleControlValue.value = '75%';
+      getTransformImage(imgUploadPreview, 0.75);
+      break;
+    case '75%':
+      scaleControlValue.value = '100%';
+      getTransformImage(imgUploadPreview, 1);
+      break;
   }
-  return currentValue;
-});
+};
 
-scaleControlBigger.addEventListener('click', function () {
-  if (currentValue < scaleMax) {
-    currentValue = currentValue + scaleStep;
-    scaleControlValue.value = currentValue;
-    imgUploadPreview.style.transform = 'scale(' + currentValue / 100 + ')';
+var setControlValueDec = function (evt) {
+  evt.preventDefault();
+  switch (scaleControlValue.value) {
+    case '50%':
+      scaleControlValue.value = '25%';
+      getTransformImage(imgUploadPreview, 0.25);
+      break;
+    case '75%':
+      scaleControlValue.value = '50%';
+      getTransformImage(imgUploadPreview, 0.5);
+      break;
+    case '100%':
+      scaleControlValue.value = '75%';
+      getTransformImage(imgUploadPreview, 0.75);
+      break;
   }
-  return currentValue;
-});
+};
+
+var getTransformImage = function (elementOfTransform, valueOfScale) {
+  elementOfTransform.style.transform = 'scale(' + (valueOfScale) + ')';
+};
+
+scaleControlBigger.addEventListener('click', setControlValueInc);
+scaleControlSmaller.addEventListener('click', setControlValueDec);
 
 // Валидация хештегов
 
@@ -234,19 +278,34 @@ var setErrorRedLine = function (evt) {
   evt.target.style.border = '2px solid red';
 };
 
+var findDuplicateElements = function (elements) {
+  var duplicatesExist = false;
+  var etalon = '';
+  if (elements.length > 1) {
+    for (var i = 0; i < elements.length; i++) {
+      etalon = elements[i];
+      for (var j = i + 1; j < elements.length; j++) {
+        if (etalon === elements[j]) {
+          duplicatesExist = true;
+        }
+      }
+    }
+  }
+
+  return duplicatesExist;
+};
+
 inputHashtag.addEventListener('input', function (evt) {
   var hashtagsArray = evt.target.value.toLowerCase().split(' ');
 
   for (var i = 0; i < hashtagsArray.length; i++) {
     var hashtag = hashtagsArray[i];
 
-    for (var j = 0; j < hashtag.length; j++) {
-      if (hashtag[j] === '@' || hashtag[j] === '$' || hashtag[j] === '/' || hashtag[j] === '.' || hashtag[j] === ' ' || hashtag[j] === '-' || hashtag[j] === '_' || hashtag[j] === '+' || hashtag[j] === '=' || hashtag[j] === '%') {
-        evt.target.setCustomValidity('Строка после решётки должна состоять из букв и чисел');
-        setErrorRedLine(evt);
+    if (!hashtag.match(/^([#])([0-9a-zA-Zа-яёА-ЯЁ]{1,19})$/g)) {
+      evt.target.setCustomValidity('Строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т.п.), символы пунктуации (тире, дефис, запятая и т.п.), эмодзи и т.д.');
+      setErrorRedLine(evt);
 
-        return;
-      }
+      return;
     }
 
     if (hashtag.indexOf('#', 0) !== 0) {
@@ -265,6 +324,13 @@ inputHashtag.addEventListener('input', function (evt) {
 
     if (hashtag.length > HASHTAGS_MAX_COUNT) {
       evt.target.setCustomValidity('Хэш-тег не должен быть длинее 20 символов');
+      setErrorRedLine(evt);
+
+      return;
+    }
+
+    if (findDuplicateElements(hashtagsArray)) {
+      evt.target.setCustomValidity('Один хештег не может быть использован дважды');
       setErrorRedLine(evt);
 
       return;
