@@ -6,38 +6,32 @@
   var imgUploadPhoto = document.querySelector('#img-upload__photo');
   var effects = document.querySelector('.effects');
   var effectLevel = document.querySelector('.effect-level');
+  var currentFilter = null;
+
+  var effectLevelPin = document.querySelector('.effect-level__pin');
+  var effectLevelLine = document.querySelector('.effect-level__line');
+  var effectLevelDepth = document.querySelector('.effect-level__depth');
+  var DEFAULT_EFFECT_PIN = 100;
 
   var filterChangeHandler = function (evt) {
-    var currentFilter = evt.target.value;
+    currentFilter = evt.target.value;
     if (evt.target && evt.target.matches('input[type="radio"]')) {
       effectLevel.classList.remove('hidden');
       imgUploadPhoto.removeAttribute('class');
+      imgUploadPhoto.style.filter = '';
+      effectLevelPin.style.left = DEFAULT_EFFECT_PIN + '%';
+      effectLevelDepth.style.width = DEFAULT_EFFECT_PIN + '%';
       imgUploadPhoto.classList.add('effects__preview--' + currentFilter);
-      // if (currentFilter === 'chrome') {
-      //   imgUploadPhoto.style.filter = '';
-      //   imgUploadPhoto.style.filter = getEffectChrome(window.effects.effectLevelValue);
-      // }
-      // if (currentFilter === 'sepia') {
-      //   imgUploadPhoto.style.filter = '';
-      //   imgUploadPhoto.style.filter = getEffectSepia(window.effects.effectLevelValue);
-      // }
       if (currentFilter === 'none') {
         effectLevel.classList.add('hidden');
         imgUploadPhoto.style.filter = '';
       }
     }
-    window.effects = {
-      currentFilter: currentFilter
-    };
   };
 
-  // Слайдер смены интенсивности эффекта
+  effects.addEventListener('change', filterChangeHandler);
 
-  var effectLevelPin = document.querySelector('.effect-level__pin');
-  var effectLevelLine = document.querySelector('.effect-level__line');
-  var effectLevelDepth = document.querySelector('.effect-level__depth');
-  effectLevelPin.style.left = 100 + '%';
-  effectLevelDepth.style.width = 100 + '%';
+  // Слайдер смены интенсивности эффекта
 
   effectLevelPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -63,13 +57,23 @@
 
         effectLevelPin.style.left = pin + 'px';
         effectLevelDepth.style.width = pin + 'px';
-        if (window.effects.currentFilter === 'chrome') {
-          imgUploadPhoto.style.filter = '';
+        if (currentFilter === 'chrome') {
+          imgUploadPhoto.style.filter = null;
           imgUploadPhoto.style.filter = getEffectChrome(effectLevelValue);
         }
-        if (window.effects.currentFilter === 'sepia') {
-          imgUploadPhoto.style.filter = '';
+        if (currentFilter === 'sepia') {
+          imgUploadPhoto.style.filter = null;
           imgUploadPhoto.style.filter = getEffectSepia(effectLevelValue);
+        }
+        if (currentFilter === 'marvin') {
+          imgUploadPhoto.style.filter = null;
+          imgUploadPhoto.style.filter = getEffectMarvin(effectLevelValue);
+        }
+        if (currentFilter === 'phobos') {
+          imgUploadPhoto.style.filter = getEffectPhobos(effectLevelValue);
+        }
+        if (currentFilter === 'heat') {
+          imgUploadPhoto.style.filter = getEffectHeat(effectLevelValue);
         }
       }
     };
@@ -89,25 +93,24 @@
     effectLevel.classList.add('hidden');
   });
 
-  effects.addEventListener('change', filterChangeHandler);
 
-  var getEffectChrome = function (df) {
-    return 'grayscale(' + df + ')';
+  var getEffectChrome = function (value) {
+    return 'grayscale(' + value + ')';
   };
 
-  var getEffectSepia = function (df) {
-    return 'sepia(' + df + ')';
+  var getEffectSepia = function (value) {
+    return 'sepia(' + value + ')';
   };
 
-  // var getEffectMarvin = function () {
-  //   return 'invert(' + effectLevel + '%)';
-  // };
+  var getEffectMarvin = function (value) {
+    return 'invert(' + value * 100 + '%)';
+  };
 
-  // var getEffectPhobos = function () {
-  //   return 'blur(' + effectLevel * 3 + 'px)';
-  // };
+  var getEffectPhobos = function (value) {
+    return 'blur(' + value * 3 + 'px)';
+  };
 
-  // var getEffectHeat = function () {
-  //   return 'brightness(' + (effectLevel * (3 - 1) + 3) + ')';
-  // };
+  var getEffectHeat = function (value) {
+    return 'brightness(' + (value * (3 - 1) + 1) + ')';
+  };
 })();
