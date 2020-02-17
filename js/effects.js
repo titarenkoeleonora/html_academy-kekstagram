@@ -12,6 +12,8 @@
   var effectLevelLine = document.querySelector('.effect-level__line');
   var effectLevelDepth = document.querySelector('.effect-level__depth');
   var DEFAULT_EFFECT_PIN = 100;
+  var MIN_EFFECT_VALUE = 1;
+  var MAX_EFFACT_VALUE = 3;
 
   var filterChangeHandler = function (evt) {
     currentFilter = evt.target.value;
@@ -103,14 +105,14 @@
   };
 
   var getEffectMarvin = function (value) {
-    return 'invert(' + value * 100 + '%)';
+    return 'invert(' + value * DEFAULT_EFFECT_PIN + '%)';
   };
 
   var getEffectPhobos = function (value) {
-    return 'blur(' + value * 3 + 'px)';
+    return 'blur(' + value * MAX_EFFACT_VALUE + 'px)';
   };
 
   var getEffectHeat = function (value) {
-    return 'brightness(' + (value * (3 - 1) + 1) + ')';
+    return 'brightness(' + (value * (MAX_EFFACT_VALUE - MIN_EFFECT_VALUE) + MIN_EFFECT_VALUE) + ')';
   };
 })();
