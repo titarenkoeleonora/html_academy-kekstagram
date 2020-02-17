@@ -2,6 +2,10 @@
 
 (function () {
 
+  var DEFAULT_EFFECT_PIN = 100;
+  var MIN_EFFECT_VALUE = 1;
+  var MAX_EFFACT_VALUE = 3;
+
   var uploadFile = document.querySelector('#upload-file');
   var imgUploadPhoto = document.querySelector('#img-upload__photo');
   var effects = document.querySelector('.effects');
@@ -11,9 +15,6 @@
   var effectLevelPin = document.querySelector('.effect-level__pin');
   var effectLevelLine = document.querySelector('.effect-level__line');
   var effectLevelDepth = document.querySelector('.effect-level__depth');
-  var DEFAULT_EFFECT_PIN = 100;
-  var MIN_EFFECT_VALUE = 1;
-  var MAX_EFFACT_VALUE = 3;
 
   var filterChangeHandler = function (evt) {
     currentFilter = evt.target.value;
@@ -52,10 +53,6 @@
 
       if (!(pin < 0 || pin > effectLevelLine.offsetWidth)) {
         effectLevelValue = pin / effectLevelLine.offsetWidth;
-
-        window.effects = {
-          effectLevelValue: effectLevelValue
-        };
 
         effectLevelPin.style.left = pin + 'px';
         effectLevelDepth.style.width = pin + 'px';
