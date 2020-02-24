@@ -17,9 +17,9 @@
 
   var successHandler = function (photos) {
     var fragment = document.createDocumentFragment();
-    photos.forEach(function (item) {
-      fragment.appendChild(renderPicture(item));
-    });
+    for (var i = 0; i < photos.length; i++) {
+      fragment.appendChild(renderPicture(photos[i]));
+    }
     similarListElement.appendChild(fragment);
   };
 
