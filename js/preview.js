@@ -12,7 +12,7 @@
     'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
   ];
-  var pictureImg = document.querySelector('.picture__img');
+  var pictures = document.querySelector('.pictures');
   var commentsList = document.querySelector('.social__comments');
   var commentTemplate = document.querySelector('.social__comment');
   var bigPicture = document.querySelector('.big-picture');
@@ -100,13 +100,16 @@
 
   createPicturesArray();
 
-  pictureImg.addEventListener('click', function () {
-    bigPicture.classList.remove('hidden');
+  pictures.addEventListener('click', function (evt) {
+    if (evt.target.classList.contains('picture__img')) {
+      bigPicture.classList.remove('hidden');
+      document.body.classList.add('modal-open');
+    }
   });
+
+  renderBigPicture(photos[0]);
 
   bigPictureCancel.addEventListener('click', function () {
     bigPicture.classList.add('hidden');
   });
-
-  renderBigPicture(photos[0]);
 })();
