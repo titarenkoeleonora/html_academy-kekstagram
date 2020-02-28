@@ -117,17 +117,20 @@
 
   bigPictureCancel.addEventListener('click', function () {
     bigPicture.classList.add('hidden');
+    document.body.classList.remove('modal-open');
   });
 
   var onPopupEscPress = function (evt) {
     if (evt.key === window.form.ESC_KEY) {
       bigPicture.classList.add('hidden');
+      document.body.classList.remove('modal-open');
     }
   };
 
   bigPicture.addEventListener('keydown', function (evt) {
     if (evt.key === window.form.ESC_KEY) {
       bigPicture.classList.add('hidden');
+      document.body.classList.remove('modal-open');
     }
   });
 
