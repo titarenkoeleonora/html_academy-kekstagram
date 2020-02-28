@@ -12,11 +12,15 @@
     'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
   ];
+
+  var pageBody = document.querySelector('body');
   var pictures = document.querySelector('.pictures');
   var commentsList = document.querySelector('.social__comments');
   var commentTemplate = document.querySelector('.social__comment');
   var bigPicture = document.querySelector('.big-picture');
   var bigPictureCancel = document.querySelector('.big-picture__cancel');
+  var socialCommentCount = document.querySelector('.social__comment-count');
+  var commentsLoader = document.querySelector('.comments-loader');
 
   var getRandomElement = function (arr) {
     return arr[Math.floor(Math.random() * arr.length)];
@@ -103,6 +107,8 @@
   pictures.addEventListener('click', function (evt) {
     if (evt.target.classList.contains('picture__img')) {
       bigPicture.classList.remove('hidden');
+      socialCommentCount.classList.add('hidden');
+      commentsLoader.classList.add('hidden');
       document.body.classList.add('modal-open');
     }
   });
@@ -112,4 +118,18 @@
   bigPictureCancel.addEventListener('click', function () {
     bigPicture.classList.add('hidden');
   });
+
+  var onPopupEscPress = function (evt) {
+    if (evt.key === window.form.ESC_KEY) {
+      bigPicture.classList.add('hidden');
+    }
+  };
+
+  bigPicture.addEventListener('keydown', function (evt) {
+    if (evt.key === window.form.ESC_KEY) {
+      bigPicture.classList.add('hidden');
+    }
+  });
+
+  pageBody.addEventListener('keydown', onPopupEscPress);
 })();
