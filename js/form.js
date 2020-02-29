@@ -10,6 +10,11 @@
   var ESC_KEY = 'Escape';
   var ENTER_KEY = 'Enter';
 
+  window.form = {
+    ESC_KEY: ESC_KEY,
+    ENTER_KEY: ENTER_KEY
+  };
+
   var closePopup = function () {
     uploadForm.classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
