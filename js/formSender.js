@@ -10,28 +10,6 @@
   var successInner = document.querySelector('.success__inner');
   var errorInner = document.querySelector('.error__inner');
 
-  // var closeInfoPopup = function (popup) {
-
-  //   main.appendChild(popup);
-  //   (popup + 'Button').addEventListener('click', function () {
-  //     main.removeChild(popup);
-  //   });
-
-  //   pageBody.addEventListener('keydown', function (evt) {
-  //     if (evt.key === window.form.ESC_KEY) {
-  //       main.removeChild(popup);
-  //       window.effects.resetData();
-  //     }
-  //   });
-
-  //   document.addEventListener('click', function (evt) {
-  //     if (evt.target !== (popup + 'Inner')) {
-  //       main.removeChild(popup);
-  //       window.effects.resetData();
-  //     }
-  //   });
-  // };
-
   var removeMessage = function (message) {
     main.removeChild(message);
     pageBody.classList.remove('modal-open');
@@ -92,9 +70,9 @@
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
     uploadForm.classList.add('hidden');
-    resetData();
 
     window.upload(new FormData(form), successHandler, errorHandler);
+    resetData();
   });
 
   window.formSender = {
