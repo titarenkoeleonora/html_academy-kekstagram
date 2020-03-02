@@ -6,7 +6,8 @@
   var scaleControlSmaller = document.querySelector('.scale__control--smaller');
   var scaleControlBigger = document.querySelector('.scale__control--bigger');
   var scaleControlValue = document.querySelector('.scale__control--value');
-  scaleControlValue.value = '100%';
+  var defaultPictureSize = '100%';
+  scaleControlValue.value = defaultPictureSize;
 
   var setControlValueInc = function (evt) {
     evt.preventDefault();
@@ -50,4 +51,10 @@
 
   scaleControlBigger.addEventListener('click', setControlValueInc);
   scaleControlSmaller.addEventListener('click', setControlValueDec);
+
+  window.imageSize = {
+    scaleControlValue: scaleControlValue,
+    defaultPictureSize: defaultPictureSize,
+    getTransformImage: getTransformImage
+  };
 })();

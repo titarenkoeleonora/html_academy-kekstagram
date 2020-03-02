@@ -18,6 +18,7 @@
   var closePopup = function () {
     uploadForm.classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
+    window.formSender.resetData();
   };
 
   var onPopupEscPress = function (evt) {

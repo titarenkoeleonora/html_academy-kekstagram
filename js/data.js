@@ -23,5 +23,5 @@
     similarListElement.appendChild(fragment);
   };
 
-  window.load(successHandler, window.errorHandler);
+  window.download(successHandler, window.downloadErrorHandler);
 })();
