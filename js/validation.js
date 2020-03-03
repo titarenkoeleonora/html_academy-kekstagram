@@ -34,15 +34,15 @@
     for (var i = 0; i < hashtagsArray.length; i++) {
       var hashtag = hashtagsArray[i];
 
-      if (!hashtag.match(/^([#])([0-9a-zA-Zа-яёА-ЯЁ]{1,19})$/g)) {
-        evt.target.setCustomValidity('Строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т.п.), символы пунктуации (тире, дефис, запятая и т.п.), эмодзи и т.д.');
+      if (hashtagsArray[i] === '#') {
+        evt.target.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
         setErrorRedLine(evt);
 
         return;
       }
 
-      if (hashtag.indexOf('#', 0) !== 0) {
-        evt.target.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
+      if (!hashtag.match(/^([#])([0-9a-zA-Zа-яёА-ЯЁ]{1,19})$/g)) {
+        evt.target.setCustomValidity('Строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т.п.), символы пунктуации (тире, дефис, запятая и т.п.), эмодзи и т.д.');
         setErrorRedLine(evt);
 
         return;

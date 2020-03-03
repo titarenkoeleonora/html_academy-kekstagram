@@ -9,29 +9,29 @@
   var imgUploadPreview = document.querySelector('.img-upload__preview');
   var successInner = document.querySelector('.success__inner');
   var errorInner = document.querySelector('.error__inner');
+  var success = document.querySelector('#success').content.querySelector('.success');
+  var successButton = success.querySelector('.success__button');
 
   var removeMessage = function (message) {
     main.removeChild(message);
+
     pageBody.classList.remove('modal-open');
+    successButton.removeEventListener('click', successHandler);
+    pageBody.removeEventListener('keydown', successHandler);
+    document.removeEventListener('click', successHandler);
   };
 
   var successHandler = function () {
-    var success = document.querySelector('#success').content.querySelector('.success');
-    var successButton = success.querySelector('.success__button');
-
     main.appendChild(success);
-    successButton.addEventListener('click', function () {
-      removeMessage(success);
-    });
 
-    pageBody.addEventListener('keydown', function (evt) {
-      if (evt.key === window.form.ESC_KEY) {
+    document.addEventListener('click', function (evt) {
+      if (evt.target !== successInner || evt.target === successButton) {
         removeMessage(success);
       }
     });
 
-    document.addEventListener('click', function (evt) {
-      if (evt.target !== successInner) {
+    pageBody.addEventListener('keydown', function (evt) {
+      if (evt.key === window.form.ESC_KEY) {
         removeMessage(success);
       }
     });
@@ -43,18 +43,14 @@
 
     main.appendChild(error);
 
-    errorButton.addEventListener('click', function () {
-      removeMessage(error);
-    });
-
-    pageBody.addEventListener('keydown', function (evt) {
-      if (evt.key === window.form.ESC_KEY) {
+    document.addEventListener('click', function (evt) {
+      if (evt.target !== errorInner || evt.target === errorButton) {
         removeMessage(error);
       }
     });
 
-    document.addEventListener('click', function (evt) {
-      if (evt.target !== errorInner) {
+    pageBody.addEventListener('keydown', function (evt) {
+      if (evt.key === window.form.ESC_KEY) {
         removeMessage(error);
       }
     });
