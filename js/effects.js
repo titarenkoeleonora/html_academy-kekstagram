@@ -15,6 +15,7 @@
   var effectLevelPin = document.querySelector('.effect-level__pin');
   var effectLevelLine = document.querySelector('.effect-level__line');
   var effectLevelDepth = document.querySelector('.effect-level__depth');
+  var effectLevelValue = document.querySelector('.effect-level__value');
 
   var filterChangeHandler = function (evt) {
     currentFilter = evt.target.value;
@@ -43,7 +44,7 @@
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-      var effectLevelValue = document.querySelector('.effect-level__value');
+
 
       var shift = startCoords - moveEvt.clientX;
 
@@ -56,24 +57,7 @@
 
         effectLevelPin.style.left = pin + 'px';
         effectLevelDepth.style.width = pin + 'px';
-        if (currentFilter === 'chrome') {
-          imgUploadPhoto.style.filter = null;
-          imgUploadPhoto.style.filter = getEffectChrome(effectLevelValue);
-        }
-        if (currentFilter === 'sepia') {
-          imgUploadPhoto.style.filter = null;
-          imgUploadPhoto.style.filter = getEffectSepia(effectLevelValue);
-        }
-        if (currentFilter === 'marvin') {
-          imgUploadPhoto.style.filter = null;
-          imgUploadPhoto.style.filter = getEffectMarvin(effectLevelValue);
-        }
-        if (currentFilter === 'phobos') {
-          imgUploadPhoto.style.filter = getEffectPhobos(effectLevelValue);
-        }
-        if (currentFilter === 'heat') {
-          imgUploadPhoto.style.filter = getEffectHeat(effectLevelValue);
-        }
+        getEffectLevel();
       }
     };
 
@@ -92,6 +76,28 @@
     effectLevel.classList.add('hidden');
   });
 
+  // Глубина эффекта
+
+  var getEffectLevel = function () {
+    imgUploadPhoto.style.filter = null;
+    switch (currentFilter) {
+      case 'chrome':
+        imgUploadPhoto.style.filter = getEffectChrome(effectLevelValue);
+        break;
+      case 'sepia':
+        imgUploadPhoto.style.filter = getEffectSepia(effectLevelValue);
+        break;
+      case 'marvin':
+        imgUploadPhoto.style.filter = getEffectMarvin(effectLevelValue);
+        break;
+      case 'phobos':
+        imgUploadPhoto.style.filter = getEffectPhobos(effectLevelValue);
+        break;
+      case 'heat':
+        imgUploadPhoto.style.filter = getEffectHeat(effectLevelValue);
+        break;
+    }
+  };
 
   var getEffectChrome = function (value) {
     return 'grayscale(' + value + ')';
@@ -111,5 +117,9 @@
 
   var getEffectHeat = function (value) {
     return 'brightness(' + (value * (MAX_EFFACT_VALUE - MIN_EFFECT_VALUE) + MIN_EFFECT_VALUE) + ')';
+  };
+
+  window.effects = {
+    getEffectLevel: getEffectLevel
   };
 })();

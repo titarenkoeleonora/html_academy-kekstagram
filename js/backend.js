@@ -3,6 +3,7 @@
 
 (function () {
   var URL = 'https://js.dump.academy/kekstagram/data';
+  var URL_POST = 'https://js.dump.academy/kekstagram';
   var statusOk = 200;
   var TIMEOUT = 10000;
 
@@ -29,15 +30,21 @@
     return xhr;
   };
 
-  window.load = function (onLoad, onError) {
+  window.download = function (onLoad, onError) {
     var xhr = setup(onLoad, onError);
     xhr.open('GET', URL);
     xhr.send();
   };
 
-  window.errorHandler = function (errorMessage) {
+  window.upload = function (data, onLoad, onError) {
+    var xhr = setup(onLoad, onError);
+    xhr.open('POST', URL_POST);
+    xhr.send(data);
+  };
+
+  window.downloadErrorHandler = function (errorMessage) {
     var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; color: red; background-color: white; border: 2px solid red;';
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; color: black; background-color: yellow; border: 2px solid yellow;';
     node.style.position = 'absolute';
     node.style.left = 0;
     node.style.right = 0;
