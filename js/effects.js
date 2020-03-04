@@ -76,28 +76,24 @@
     effectLevel.classList.add('hidden');
   });
 
-  // глубина эффекта
+  // Глубина эффекта
 
   var getEffectLevel = function () {
+    imgUploadPhoto.style.filter = null;
     switch (currentFilter) {
       case 'chrome':
-        imgUploadPhoto.style.filter = null;
         imgUploadPhoto.style.filter = getEffectChrome(effectLevelValue);
         break;
       case 'sepia':
-        imgUploadPhoto.style.filter = null;
         imgUploadPhoto.style.filter = getEffectSepia(effectLevelValue);
         break;
       case 'marvin':
-        imgUploadPhoto.style.filter = null;
         imgUploadPhoto.style.filter = getEffectMarvin(effectLevelValue);
         break;
       case 'phobos':
-        imgUploadPhoto.style.filter = null;
         imgUploadPhoto.style.filter = getEffectPhobos(effectLevelValue);
         break;
       case 'heat':
-        imgUploadPhoto.style.filter = null;
         imgUploadPhoto.style.filter = getEffectHeat(effectLevelValue);
         break;
     }
