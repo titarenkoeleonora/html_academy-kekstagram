@@ -92,7 +92,7 @@
       removeFitlerButton();
       filterDiscussedButton.classList.add('img-filters__button--active');
 
-      discussedArr = window.data.photosArr.slice(0, 25).sort(function (second, first) {
+      discussedArr = window.data.photosArr.slice().sort(function (second, first) {
         return first.comments.length - second.comments.length;
       });
       addPictures(discussedArr);
