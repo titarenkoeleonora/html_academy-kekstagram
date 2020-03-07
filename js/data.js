@@ -26,8 +26,6 @@
       fragment.appendChild(renderPicture(photo));
     });
     similarListElement.appendChild(fragment);
-
-    photosArr = photos;
   };
 
   var removePictures = function () {
@@ -38,7 +36,8 @@
   };
 
   var successHandler = function (photos) {
-    addPictures(photos);
+    window.data.photosArr = photos;
+    addPictures(window.data.photosArr);
     imgFilters.classList.remove('img-filters--inactive');
   };
 
@@ -66,8 +65,7 @@
       removeFitlerButton();
       filterDefaultButton.classList.add('img-filters__button--active');
 
-      addPictures(photosArr);
-      console.log(photosArr);
+      addPictures(window.data.photosArr);
     });
   };
 
@@ -79,7 +77,7 @@
       filterRandomButton.classList.add('img-filters__button--active');
 
       while (randomArr.length < RANDOM_PHOTOS_COUNT) {
-        var randomPicture = getRandomElement(photosArr);
+        var randomPicture = getRandomElement(window.data.photosArr);
         if (randomArr.indexOf(randomPicture) === -1) {
           randomArr.push(randomPicture);
         }
@@ -94,11 +92,10 @@
       removeFitlerButton();
       filterDiscussedButton.classList.add('img-filters__button--active');
 
-      discussedArr = photosArr.slice(0, 25).sort(function (second, first) {
+      discussedArr = window.data.photosArr.slice(0, 25).sort(function (second, first) {
         return first.comments.length - second.comments.length;
       });
       addPictures(discussedArr);
-      console.log(discussedArr);
     });
   };
 
@@ -106,4 +103,9 @@
   filterRandomButton.addEventListener('click', getFilterRandom);
   filterDiscussedButton.addEventListener('click', getFilterDiscussed);
   filterDefaultButton.addEventListener('click', getFilterDefault);
+
+  window.data = {
+    photosArr: photosArr
+  };
+
 })();
