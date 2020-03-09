@@ -8,7 +8,20 @@
   var imgFilters = document.querySelector('.img-filters');
 
   var photosArr = [];
+  var randomArr = [];
+  var discussedArr = [];
 
+  var createPictureObject = function (photo, index) {
+    var pictureObject = {
+      url: photo.url,
+      description: photo.description,
+      likes: photo.likes,
+      comments: photo.comments,
+      id: index
+    };
+
+    return pictureObject;
+  };
 
   var renderPicture = function (photo) {
     var pictureElement = photosTemplate.cloneNode(true);
@@ -16,15 +29,16 @@
     pictureElement.querySelector('.picture__img').src = photo.url;
     pictureElement.querySelector('.picture__likes').textContent = photo.likes;
     pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
+    pictureElement.querySelector('.picture__img').dataset.index = photo.id;
 
     return pictureElement;
   };
 
   var addPictures = function (photos) {
     var fragment = document.createDocumentFragment();
-    photos.forEach(function (photo) {
-      fragment.appendChild(renderPicture(photo));
-    });
+    for (var i = 0; i < photos.length; i++) {
+      fragment.appendChild(renderPicture(createPictureObject(photos[i], i)));
+    }
     similarListElement.appendChild(fragment);
   };
 
@@ -71,8 +85,6 @@
 
   var getFilterRandom = function () {
     window.debounce(function () {
-      var randomArr = [];
-
       removeFitlerButton();
       filterRandomButton.classList.add('img-filters__button--active');
 
@@ -88,7 +100,6 @@
 
   var getFilterDiscussed = function () {
     window.debounce(function () {
-      var discussedArr = [];
       removeFitlerButton();
       filterDiscussedButton.classList.add('img-filters__button--active');
 
@@ -105,7 +116,9 @@
   filterDefaultButton.addEventListener('click', getFilterDefault);
 
   window.data = {
-    photosArr: photosArr
+    photosArr: photosArr,
+    randomArr: randomArr,
+    discussedArr: discussedArr
   };
 
 })();
