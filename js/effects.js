@@ -76,8 +76,6 @@
     effectLevel.classList.add('hidden');
   });
 
-  // Глубина эффекта
-
   var getEffectLevel = function () {
     imgUploadPhoto.style.filter = null;
     switch (currentFilter) {

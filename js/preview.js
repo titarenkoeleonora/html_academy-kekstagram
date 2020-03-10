@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-
+  var MAX_COMMENTS_COUNT = 5;
   var pageBody = document.querySelector('body');
   var pictures = document.querySelector('.pictures');
   var commentsList = document.querySelector('.social__comments');
@@ -9,7 +9,7 @@
   var bigPicture = document.querySelector('.big-picture');
   var bigPictureCancel = document.querySelector('.big-picture__cancel');
   // var socialCommentCount = document.querySelector('.social__comment-count');
-  // var commentsLoader = document.querySelector('.comments-loader');
+  var commentsLoader = document.querySelector('.comments-loader');
 
   var createNewComment = function (comment) {
     var commentElement = commentTemplate.cloneNode(true);
@@ -21,6 +21,7 @@
     return commentElement;
   };
 
+
   var getComments = function (comment) {
     commentsList.innerHTML = '';
     var fragment = document.createDocumentFragment();
@@ -29,6 +30,12 @@
       fragment.appendChild(createNewComment(comment[i]));
     }
     commentsList.appendChild(fragment);
+
+    if (comment.length < MAX_COMMENTS_COUNT) {
+      commentsLoader.classList.add('hidden');
+    } else {
+      commentsLoader.classList.remove('hidden');
+    }
   };
 
   var renderBigPicture = function (photo) {
@@ -40,7 +47,6 @@
     getComments(photo.comments);
   };
 
-
   pictures.addEventListener('click', function (evt) {
     if (evt.target.classList.contains('picture__img')) {
       var index = parseInt(evt.target.dataset.index, 10);
@@ -50,11 +56,8 @@
       if (window.data.photosArr) {
         renderBigPicture(window.data.photosArr[index]);
       }
-      if (window.data.randomArr) {
-        renderBigPicture(window.data.randomArr[index]);
-      }
-      if (window.data.discussedArr) {
-        renderBigPicture(window.data.discussedArr[index]);
+      if (window.data.arr) {
+        renderBigPicture(window.data.arr[index]);
       }
     }
   });
@@ -80,12 +83,12 @@
 
   pageBody.addEventListener('keydown', onPopupEscPress);
 
-  // commentsLoader.addEventListener('click', function (comment) {
-  //   var fragment = document.createDocumentFragment();
+  commentsLoader.addEventListener('click', function (comment) {
+    var fragment = document.createDocumentFragment();
 
-  //   for (var i = 0; i < 5; i++) {
-  //     fragment.appendChild(createNewComment(comment[i]));
-  //   }
-  //   commentsList.appendChild(fragment);
-  // });
+    for (var i = 0; i < MAX_COMMENTS_COUNT; i++) {
+      fragment.appendChild(createNewComment(comment[i]));
+    }
+    commentsList.appendChild(fragment);
+  });
 })();

@@ -1,11 +1,14 @@
 'use strict';
 
 (function () {
-
   var RANDOM_PHOTOS_COUNT = 10;
   var similarListElement = document.querySelector('.pictures');
   var photosTemplate = document.querySelector('#picture').content.querySelector('.picture');
   var imgFilters = document.querySelector('.img-filters');
+
+  var filterRandomButton = document.querySelector('#filter-random');
+  var filterDiscussedButton = document.querySelector('#filter-discussed');
+  var filterDefaultButton = document.querySelector('#filter-default');
 
   var photosArr = [];
   var randomArr = [];
@@ -63,10 +66,6 @@
     return arr[Math.floor(Math.random() * arr.length)];
   };
 
-  var filterRandomButton = document.querySelector('#filter-random');
-  var filterDiscussedButton = document.querySelector('#filter-discussed');
-  var filterDefaultButton = document.querySelector('#filter-default');
-
   var removeFitlerButton = function () {
     filterRandomButton.classList.remove('img-filters__button--active');
     filterDiscussedButton.classList.remove('img-filters__button--active');
@@ -80,6 +79,7 @@
       filterDefaultButton.classList.add('img-filters__button--active');
 
       addPictures(window.data.photosArr);
+      window.data.arr = window.data.photosArr;
     });
   };
 
@@ -95,6 +95,7 @@
         }
       }
       addPictures(randomArr);
+      window.data.arr = randomArr;
     });
   };
 
@@ -107,6 +108,8 @@
         return first.comments.length - second.comments.length;
       });
       addPictures(discussedArr);
+      // window.data.discussedArr = discussedArr;
+      window.data.arr = discussedArr;
     });
   };
 
@@ -120,5 +123,4 @@
     randomArr: randomArr,
     discussedArr: discussedArr
   };
-
 })();

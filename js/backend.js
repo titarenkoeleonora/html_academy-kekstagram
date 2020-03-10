@@ -7,22 +7,22 @@
   var statusOk = 200;
   var TIMEOUT = 10000;
 
-  var setup = function (onLoad, onError) {
+  var setup = function (load, error) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
       if (xhr.status === statusOk) {
-        onLoad(xhr.response);
+        load(xhr.response);
       } else {
-        onError(xhr.response);
+        error(xhr.response);
       }
     });
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      error('Произошла ошибка соединения');
     });
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      error('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
     xhr.timeout = TIMEOUT;
