@@ -39,7 +39,7 @@
   var renderNewComments = function (comment) {
     commentsArray = comment.slice(START_COUNT, COMMENTS_COUNT + count);
     count += COMMENTS_COUNT;
-    if (commentsArray.length % COMMENTS_COUNT !== 0) {
+    if (commentsArray.length === comment.length) {
       commentsLoader.classList.add('hidden');
     } else {
       commentsLoader.classList.remove('hidden');
