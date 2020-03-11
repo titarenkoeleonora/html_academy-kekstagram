@@ -51,9 +51,9 @@
   };
 
   var successHandler = function (photos) {
-    window.data.photosArr = photos;
+    window.data.photosArray = photos;
     getFilterDefault(photos);
-    addPictures(window.data.photosArr);
+    addPictures(window.data.photosArray);
     imgFilters.classList.remove('img-filters--inactive');
   };
 
@@ -61,8 +61,8 @@
 
   // фильтры
 
-  var getRandomElement = function (arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
+  var getRandomElement = function (array) {
+    return array[Math.floor(Math.random() * array.length)];
   };
 
   var removeFitlerButton = function () {
@@ -76,26 +76,24 @@
     window.debounce(function () {
       removeFitlerButton();
       filterDefaultButton.classList.add('img-filters__button--active');
-      array = window.data.photosArr;
+      array = window.data.photosArray;
       addPictures(array);
-      console.log(array);
     });
   };
 
   var getFilterRandom = function (array) {
     window.debounce(function () {
-      var randomArr = [];
+      var randomPhotosArray = [];
       removeFitlerButton();
       filterRandomButton.classList.add('img-filters__button--active');
-      while (randomArr.length < RANDOM_PHOTOS_COUNT) {
-        var randomPicture = getRandomElement(window.data.photosArr);
-        if (randomArr.indexOf(randomPicture) === -1) {
-          randomArr.push(randomPicture);
+      while (randomPhotosArray.length < RANDOM_PHOTOS_COUNT) {
+        var randomPicture = getRandomElement(window.data.photosArray);
+        if (randomPhotosArray.indexOf(randomPicture) === -1) {
+          randomPhotosArray.push(randomPicture);
         }
       }
-      array = randomArr;
+      array = randomPhotosArray;
       addPictures(array);
-      console.log(array);
       return array;
     });
   };
@@ -105,12 +103,11 @@
       removeFitlerButton();
       filterDiscussedButton.classList.add('img-filters__button--active');
 
-      var discussedArr = window.data.photosArr.slice().sort(function (second, first) {
+      var discussedPhotosArray = window.data.photosArray.slice().sort(function (second, first) {
         return first.comments.length - second.comments.length;
       });
-      array = discussedArr;
+      array = discussedPhotosArray;
       addPictures(array);
-      console.log(array);
       return array;
     });
   };
@@ -129,12 +126,11 @@
         getFilterDiscussed(photosCopy);
         break;
     }
-    // console.log(photosArray);
   };
 
   imgFilters.addEventListener('click', filtersHandler);
 
   window.data = {
-    photosArray: photosCopy
+    photosCopy: photosCopy
   };
 })();

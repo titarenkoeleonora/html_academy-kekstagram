@@ -4,15 +4,15 @@
 (function () {
   var URL = 'https://js.dump.academy/kekstagram/data';
   var URL_POST = 'https://js.dump.academy/kekstagram';
-  var statusOk = 200;
   var TIMEOUT = 10000;
+  var STATUS_OK = 200;
 
   var setup = function (load, error) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === statusOk) {
+      if (xhr.status === STATUS_OK) {
         load(xhr.response);
       } else {
         error(xhr.response);
