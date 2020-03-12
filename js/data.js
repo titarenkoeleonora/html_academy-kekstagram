@@ -49,9 +49,9 @@
   };
 
   var successHandler = function (photos) {
-    window.data.photosArray = photos;
+    window.photosArray = photos;
     getFilterDefault(photos);
-    addPictures(window.data.photosArray);
+    addPictures(window.photosArray);
     imgFilters.classList.remove('img-filters--inactive');
   };
 
@@ -102,10 +102,11 @@
     addPictures(sortArr);
     return sortArr;
   };
-  var filterSort;
-  var filtersHandler = function (evt) {
+
+  var getSortedPhotos = function (evt) {
+    var filterSort;
     var currentFilterButton = evt.target.id;
-    var copyFilterSort = window.data.photosArray.slice();
+    var copyFilterSort = window.photosArray.slice();
     switch (currentFilterButton) {
       case 'filter-default':
         filterSort = getFilterDefault(copyFilterSort);
@@ -117,13 +118,10 @@
         filterSort = getFilterDiscussed(copyFilterSort);
         break;
     }
-    console.log(filterSort);
+
+    window.photosArr = filterSort;
     return filterSort;
   };
 
-  imgFilters.addEventListener('click', filtersHandler);
-
-  window.data = {
-    filterSort: filterSort
-  };
+  imgFilters.addEventListener('click', getSortedPhotos);
 })();
