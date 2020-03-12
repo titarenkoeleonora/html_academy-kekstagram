@@ -6,11 +6,11 @@
   var MIN_EFFECT_VALUE = 1;
   var MAX_EFFACT_VALUE = 3;
 
+  var currentFilter = null;
   var uploadFile = document.querySelector('#upload-file');
   var imgUploadPhoto = document.querySelector('#img-upload__photo');
   var effects = document.querySelector('.effects');
   var effectLevel = document.querySelector('.effect-level');
-  var currentFilter = null;
 
   var effectLevelPin = document.querySelector('.effect-level__pin');
   var effectLevelLine = document.querySelector('.effect-level__line');
@@ -42,7 +42,7 @@
 
     var startCoords = evt.clientX;
 
-    var onMouseMove = function (moveEvt) {
+    var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
 
@@ -61,22 +61,20 @@
       }
     };
 
-    var onMouseUp = function (upEvt) {
+    var mouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
 
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
   });
 
   uploadFile.addEventListener('change', function () {
     effectLevel.classList.add('hidden');
   });
-
-  // Глубина эффекта
 
   var getEffectLevel = function () {
     imgUploadPhoto.style.filter = null;

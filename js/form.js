@@ -1,22 +1,21 @@
 'use strict';
 
 (function () {
+  var ESC_KEY = 'Escape';
+  var ENTER_KEY = 'Enter';
 
   var pageBody = document.querySelector('body');
   var uploadFile = document.querySelector('#upload-file');
   var uploadForm = document.querySelector('.img-upload__overlay');
   var uploadCancel = document.querySelector('#upload-cancel');
 
-  var ESC_KEY = 'Escape';
-  var ENTER_KEY = 'Enter';
-
   var closePopup = function () {
     uploadForm.classList.add('hidden');
-    document.removeEventListener('keydown', onPopupEscPress);
+    document.removeEventListener('keydown', popupEscPressHandler);
     window.formSender.resetData();
   };
 
-  var onPopupEscPress = function (evt) {
+  var popupEscPressHandler = function (evt) {
     if (evt.key === ESC_KEY) {
       closePopup();
     }
@@ -28,7 +27,7 @@
     }
   });
 
-  pageBody.addEventListener('keydown', onPopupEscPress);
+  pageBody.addEventListener('keydown', popupEscPressHandler);
 
   uploadFile.addEventListener('change', function () {
     pageBody.classList.add('modal-open');
