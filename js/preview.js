@@ -69,8 +69,6 @@
 
       bigPicture.classList.remove('hidden');
       document.body.classList.add('modal-open');
-      // renderBigPicture(window.data.photosArray[index]);
-      // console.log(window.data.photosArray);
       if (window.data.photosArray) {
         renderBigPicture(window.data.photosArray[index]);
       }
@@ -81,7 +79,6 @@
 
     commentsLoader.addEventListener('click', function () {
       renderNewComments(window.data.photosArray[index].comments);
-      // renderNewComments(window.data.photosArr[index].comments);
     });
   });
 

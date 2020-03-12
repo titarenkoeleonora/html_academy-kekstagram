@@ -10,8 +10,6 @@
   var filterDiscussedButton = document.querySelector('#filter-discussed');
   var filterDefaultButton = document.querySelector('#filter-default');
 
-  var photosCopy = [];
-
   var createPictureObject = function (photo, index) {
     var pictureObject = {
       url: photo.url,
@@ -61,10 +59,6 @@
 
   // фильтры
 
-  var getRandomElement = function (array) {
-    return array[Math.floor(Math.random() * array.length)];
-  };
-
   var removeFitlerButton = function () {
     filterRandomButton.classList.remove('img-filters__button--active');
     filterDiscussedButton.classList.remove('img-filters__button--active');
@@ -73,64 +67,63 @@
   };
 
   var getFilterDefault = function (array) {
-    window.debounce(function () {
-      removeFitlerButton();
-      filterDefaultButton.classList.add('img-filters__button--active');
-      array = window.data.photosArray;
-      addPictures(array);
-    });
+    removeFitlerButton();
+    filterDefaultButton.classList.add('img-filters__button--active');
+    addPictures(array);
+    return array;
+  };
+
+  var compareRandom = function (a, b) {
+    if (a > b) {
+      return 1;
+    }
+    if (a < b) {
+      return -1;
+    }
+    return Math.random() - 0.5;
   };
 
   var getFilterRandom = function (array) {
-    window.debounce(function () {
-      var randomPhotosArray = [];
-      removeFitlerButton();
-      filterRandomButton.classList.add('img-filters__button--active');
-      while (randomPhotosArray.length < RANDOM_PHOTOS_COUNT) {
-        var randomPicture = getRandomElement(window.data.photosArray);
-        if (randomPhotosArray.indexOf(randomPicture) === -1) {
-          randomPhotosArray.push(randomPicture);
-        }
-      }
-      array = randomPhotosArray;
-      addPictures(array);
-      return array;
-    });
+    removeFitlerButton();
+    filterRandomButton.classList.add('img-filters__button--active');
+    var sortArr = array.sort(compareRandom).slice(0, RANDOM_PHOTOS_COUNT);
+    addPictures(sortArr);
+    return sortArr;
   };
 
   var getFilterDiscussed = function (array) {
-    window.debounce(function () {
-      removeFitlerButton();
-      filterDiscussedButton.classList.add('img-filters__button--active');
+    removeFitlerButton();
+    filterDiscussedButton.classList.add('img-filters__button--active');
 
-      var discussedPhotosArray = window.data.photosArray.slice().sort(function (second, first) {
-        return first.comments.length - second.comments.length;
-      });
-      array = discussedPhotosArray;
-      addPictures(array);
-      return array;
+    var sortArr = array;
+    sortArr.sort(function (second, first) {
+      return first.comments.length - second.comments.length;
     });
+    addPictures(sortArr);
+    return sortArr;
   };
-
-
+  var filterSort;
   var filtersHandler = function (evt) {
-    var currentFilterButton = evt.target;
+    var currentFilterButton = evt.target.id;
+    var copyFilterSort = window.data.photosArray.slice();
     switch (currentFilterButton) {
-      case filterDefaultButton:
-        getFilterDefault(photosCopy);
+      case 'filter-default':
+        filterSort = getFilterDefault(copyFilterSort);
         break;
-      case filterRandomButton:
-        getFilterRandom(photosCopy);
+      case 'filter-random':
+        filterSort = getFilterRandom(copyFilterSort);
         break;
-      case filterDiscussedButton:
-        getFilterDiscussed(photosCopy);
+      case 'filter-discussed':
+        filterSort = getFilterDiscussed(copyFilterSort);
         break;
     }
+    console.log(filterSort);
+    return filterSort;
   };
 
   imgFilters.addEventListener('click', filtersHandler);
 
   window.data = {
-    photosCopy: photosCopy
+    filterSort: filterSort
   };
 })();
