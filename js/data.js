@@ -2,10 +2,9 @@
 
 (function () {
   var RANDOM_PHOTOS_COUNT = 10;
-  var similarListElement = document.querySelector('.pictures');
+  var picturesContainer = document.querySelector('.pictures');
   var photosTemplate = document.querySelector('#picture').content.querySelector('.picture');
   var imgFilters = document.querySelector('.img-filters');
-
   var filterRandomButton = document.querySelector('#filter-random');
   var filterDiscussedButton = document.querySelector('#filter-discussed');
   var filterDefaultButton = document.querySelector('#filter-default');
@@ -18,7 +17,6 @@
       comments: photo.comments,
       id: index
     };
-
     return pictureObject;
   };
 
@@ -38,26 +36,25 @@
     for (var i = 0; i < photos.length; i++) {
       fragment.appendChild(renderPicture(createPictureObject(photos[i], i)));
     }
-    similarListElement.appendChild(fragment);
+    picturesContainer.appendChild(fragment);
   };
 
   var removePictures = function () {
-    var shownPictures = similarListElement.querySelectorAll('.picture');
+    var shownPictures = picturesContainer.querySelectorAll('.picture');
     shownPictures.forEach(function (photo) {
-      similarListElement.removeChild(photo);
+      picturesContainer.removeChild(photo);
     });
   };
 
   var successHandler = function (photos) {
-    window.photosArray = photos;
+    window.data.photosArray = photos;
+    window.data.photosFilteredArray = window.data.photosArray;
     getFilterDefault(photos);
-    addPictures(window.photosArray);
+    addPictures(window.data.photosArray);
     imgFilters.classList.remove('img-filters--inactive');
   };
 
   window.download(successHandler, window.downloadErrorHandler);
-
-  // фильтры
 
   var removeFitlerButton = function () {
     filterRandomButton.classList.remove('img-filters__button--active');
@@ -102,11 +99,10 @@
     addPictures(sortArr);
     return sortArr;
   };
-
-  var getSortedPhotos = function (evt) {
-    var filterSort;
+  var filterSort;
+  var filtersHandler = function (evt) {
     var currentFilterButton = evt.target.id;
-    var copyFilterSort = window.photosArray.slice();
+    var copyFilterSort = window.data.photosArray.slice();
     switch (currentFilterButton) {
       case 'filter-default':
         filterSort = getFilterDefault(copyFilterSort);
@@ -119,9 +115,12 @@
         break;
     }
 
-    window.photosArr = filterSort;
+    window.data.photosFilteredArray = filterSort;
     return filterSort;
   };
 
-  imgFilters.addEventListener('click', getSortedPhotos);
+  imgFilters.addEventListener('click', filtersHandler);
+
+  window.data = {
+  };
 })();
