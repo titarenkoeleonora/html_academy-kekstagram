@@ -118,7 +118,7 @@
 
                 <!-- Добавление хэш-тегов и комментария к изображению -->
                 <fieldset class="img-upload__text text">
-                  <input class="text__hashtags" name="hashtags" placeholder="#хэш-тег">
+                  <input class="text__hashtags" name="hashtags" placeholder="#хэш-тег" autofocus>
                   <textarea class="text__description" name="description" placeholder="Ваш комментарий..." maxlength="140"></textarea>
                 </fieldset>
 
@@ -177,7 +177,7 @@
         </div>
 
         <!-- Кнопка для выхода из полноэкранного просмотра изображения -->
-        <button type="reset" class="big-picture__cancel  cancel" id="picture-cancel">Закрыть</button>
+        <button type="reset" class="big-picture__cancel  cancel" id="picture-cancel" tabindex="0">Закрыть</button>
       </div>
     </section>
   </main>
@@ -234,6 +234,7 @@
   </template>
 
   <script src="js/debounce.js"></script>
+  <script src="js/photoLoader.js"></script>
   <script src="js/form.js"></script>
   <script src="js/backend.js"></script>
   <script src="js/data.js"></script>

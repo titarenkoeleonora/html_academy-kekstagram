@@ -31,53 +31,46 @@
   inputHashtag.addEventListener('input', function (evt) {
     var hashtagsArray = evt.target.value.toLowerCase().split(' ');
 
-    for (var i = 0; i < hashtagsArray.length; i++) {
-      var hashtag = hashtagsArray[i];
+    hashtagsArray.forEach(function (item) {
+      var hashtag = item;
 
-      if (hashtagsArray[i] === '#') {
+      if (hashtag === '#') {
         evt.target.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
         setErrorRedLine(evt);
-
         return;
       }
 
       if (!hashtag.match(/^([#])([0-9a-zA-Zа-яёА-ЯЁ]{1,19})$/g)) {
         evt.target.setCustomValidity('Строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т.п.), символы пунктуации (тире, дефис, запятая и т.п.), эмодзи и т.д.');
         setErrorRedLine(evt);
-
         return;
       }
 
       if (hashtag.length < HASHTAGS_MIN_SYMBOLS_COUNT) {
         evt.target.setCustomValidity('Хэш-тег не может состоять только из одной решётки');
         setErrorRedLine(evt);
-
         return;
       }
 
       if (hashtag.length > HASHTAGS_MAX_COUNT) {
         evt.target.setCustomValidity('Хэш-тег не должен быть длинее 20 символов');
         setErrorRedLine(evt);
-
         return;
       }
 
       if (findDuplicateElements(hashtagsArray)) {
         evt.target.setCustomValidity('Один хештег не может быть использован дважды');
         setErrorRedLine(evt);
-
         return;
       }
 
       if (hashtagsArray.length > HASHTAGS_MIN_COUNT) {
         evt.target.setCustomValidity('Вы ввели более 5 хэш-тегов!');
         setErrorRedLine(evt);
-
         return;
       }
-
       evt.target.setCustomValidity('');
       evt.target.style.border = '';
-    }
+    });
   });
 })();
