@@ -83,6 +83,8 @@
     var evtTarget = evt.target;
     if (evtTarget.classList.contains('picture__img')) {
       showBigPicture(evtTarget);
+      pictures.removeEventListener('click', pictureClickHandler);
+      pictures.removeEventListener('keydown', pictureKeydownHandler);
     }
   };
 
@@ -91,6 +93,8 @@
       evt.preventDefault();
       var currentImage = evt.target.querySelector('.picture__img');
       showBigPicture(currentImage);
+      pictures.removeEventListener('click', pictureClickHandler);
+      pictures.removeEventListener('keydown', pictureKeydownHandler);
     }
   };
 
@@ -103,6 +107,7 @@
     commentsLoader.removeEventListener('click', window.showMoreClickHandler);
     bigPictureCancel.removeEventListener('click', closeBigPicture);
     bigPicture.removeEventListener('keydown', popupEscPressHandler);
+    pictures.addEventListener('click', pictureClickHandler);
     pictures.addEventListener('keydown', pictureKeydownHandler);
   };
 

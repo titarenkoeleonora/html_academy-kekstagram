@@ -30,6 +30,7 @@
     uploadForm.classList.add('hidden');
     document.removeEventListener('keydown', popupEscPressHandler);
     window.formSender.resetData();
+    effects.removeEventListener('change', window.effects.filterChangeHandler);
     window.effects.effects.removeEventListener('change', window.effects.filterChangeHandler);
     effectLevelPin.removeEventListener('mousedown', window.effects.calculateEffectLevel);
     uploadCancel.removeEventListener('keydown', popupEscPressHandler);
