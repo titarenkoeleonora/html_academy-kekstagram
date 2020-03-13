@@ -9,6 +9,9 @@
   var filterDiscussedButton = document.querySelector('#filter-discussed');
   var filterDefaultButton = document.querySelector('#filter-default');
 
+  var photosArray = [];
+  var photosFilteredArray = [];
+
   var createPictureObject = function (photo, index) {
     var pictureObject = {
       url: photo.url,
@@ -99,28 +102,32 @@
     addPictures(sortArr);
     return sortArr;
   };
-  var filterSort;
   var filtersHandler = function (evt) {
-    var currentFilterButton = evt.target.id;
-    var copyFilterSort = window.data.photosArray.slice();
-    switch (currentFilterButton) {
-      case 'filter-default':
-        filterSort = getFilterDefault(copyFilterSort);
-        break;
-      case 'filter-random':
-        filterSort = getFilterRandom(copyFilterSort);
-        break;
-      case 'filter-discussed':
-        filterSort = getFilterDiscussed(copyFilterSort);
-        break;
-    }
+    var filterSort;
+    window.debounce(function () {
+      var currentFilterButton = evt.target.id;
+      var copyFilterSort = window.data.photosArray.slice();
+      switch (currentFilterButton) {
+        case 'filter-default':
+          filterSort = getFilterDefault(copyFilterSort);
+          break;
+        case 'filter-random':
+          filterSort = getFilterRandom(copyFilterSort);
+          break;
+        case 'filter-discussed':
+          filterSort = getFilterDiscussed(copyFilterSort);
+          break;
+      }
 
-    window.data.photosFilteredArray = filterSort;
-    return filterSort;
+      window.data.photosFilteredArray = filterSort;
+      return filterSort;
+    });
   };
 
   imgFilters.addEventListener('click', filtersHandler);
 
   window.data = {
+    photosArray: photosArray,
+    photosFilteredArray: photosFilteredArray
   };
 })();

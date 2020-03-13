@@ -28,41 +28,43 @@
       currentFilter = evt.target.value;
       effectLevelPin.style.left = DEFAULT_EFFECT_PIN + '%';
       effectLevelDepth.style.width = DEFAULT_EFFECT_PIN + '%';
-      if (currentFilter === 'none') {
-        removeFilter();
-        currentFilterClass = 'effects__preview--none';
-        imgUploadPhoto.classList.add(currentFilterClass);
-        effectLevel.classList.add('hidden');
-      }
-      if (currentFilter === 'chrome') {
-        removeFilter();
-        currentFilterClass = 'effects__preview--chrome';
-        imgUploadPhoto.classList.add(currentFilterClass);
-        effectLevel.classList.remove('hidden');
-      }
-      if (currentFilter === 'sepia') {
-        removeFilter();
-        currentFilterClass = 'effects__preview--sepia';
-        imgUploadPhoto.classList.add(currentFilterClass);
-        effectLevel.classList.remove('hidden');
-      }
-      if (currentFilter === 'marvin') {
-        removeFilter();
-        currentFilterClass = 'effects__preview--marvin';
-        imgUploadPhoto.classList.add(currentFilterClass);
-        effectLevel.classList.remove('hidden');
-      }
-      if (currentFilter === 'phobos') {
-        removeFilter();
-        currentFilterClass = 'effects__preview--phobos';
-        imgUploadPhoto.classList.add(currentFilterClass);
-        effectLevel.classList.remove('hidden');
-      }
-      if (currentFilter === 'heat') {
-        removeFilter();
-        currentFilterClass = 'effects__preview--heat';
-        imgUploadPhoto.classList.add(currentFilterClass);
-        effectLevel.classList.remove('hidden');
+      switch (currentFilter) {
+        case 'none':
+          removeFilter();
+          currentFilterClass = 'effects__preview--none';
+          imgUploadPhoto.classList.add(currentFilterClass);
+          effectLevel.classList.add('hidden');
+          break;
+        case 'chrome':
+          removeFilter();
+          currentFilterClass = 'effects__preview--chrome';
+          imgUploadPhoto.classList.add(currentFilterClass);
+          effectLevel.classList.remove('hidden');
+          break;
+        case 'sepia':
+          removeFilter();
+          currentFilterClass = 'effects__preview--sepia';
+          imgUploadPhoto.classList.add(currentFilterClass);
+          effectLevel.classList.remove('hidden');
+          break;
+        case 'marvin':
+          removeFilter();
+          currentFilterClass = 'effects__preview--marvin';
+          imgUploadPhoto.classList.add(currentFilterClass);
+          effectLevel.classList.remove('hidden');
+          break;
+        case 'phobos':
+          removeFilter();
+          currentFilterClass = 'effects__preview--phobos';
+          imgUploadPhoto.classList.add(currentFilterClass);
+          effectLevel.classList.remove('hidden');
+          break;
+        case 'heat':
+          removeFilter();
+          currentFilterClass = 'effects__preview--heat';
+          imgUploadPhoto.classList.add(currentFilterClass);
+          effectLevel.classList.remove('hidden');
+          break;
       }
     }
   };
