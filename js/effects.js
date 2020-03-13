@@ -24,48 +24,42 @@
 
   var filterChangeHandler = function (evt) {
     if (evt.target && evt.target.matches('input[type="radio"]')) {
-      removeFilter();
       currentFilter = evt.target.value;
       effectLevelPin.style.left = DEFAULT_EFFECT_PIN + '%';
       effectLevelDepth.style.width = DEFAULT_EFFECT_PIN + '%';
       switch (currentFilter) {
         case 'none':
           removeFilter();
-          currentFilterClass = 'effects__preview--none';
-          imgUploadPhoto.classList.add(currentFilterClass);
+          currentFilterClass = 'effects__preview--' + currentFilter;
           effectLevel.classList.add('hidden');
           break;
         case 'chrome':
           removeFilter();
-          currentFilterClass = 'effects__preview--chrome';
-          imgUploadPhoto.classList.add(currentFilterClass);
+          currentFilterClass = 'effects__preview--' + currentFilter;
           effectLevel.classList.remove('hidden');
           break;
         case 'sepia':
           removeFilter();
-          currentFilterClass = 'effects__preview--sepia';
-          imgUploadPhoto.classList.add(currentFilterClass);
+          currentFilterClass = 'effects__preview--' + currentFilter;
           effectLevel.classList.remove('hidden');
           break;
         case 'marvin':
           removeFilter();
-          currentFilterClass = 'effects__preview--marvin';
-          imgUploadPhoto.classList.add(currentFilterClass);
+          currentFilterClass = 'effects__preview--' + currentFilter;
           effectLevel.classList.remove('hidden');
           break;
         case 'phobos':
           removeFilter();
-          currentFilterClass = 'effects__preview--phobos';
-          imgUploadPhoto.classList.add(currentFilterClass);
+          currentFilterClass = 'effects__preview--' + currentFilter;
           effectLevel.classList.remove('hidden');
           break;
         case 'heat':
           removeFilter();
-          currentFilterClass = 'effects__preview--heat';
-          imgUploadPhoto.classList.add(currentFilterClass);
+          currentFilterClass = 'effects__preview--' + currentFilter;
           effectLevel.classList.remove('hidden');
           break;
       }
+      imgUploadPhoto.classList.add(currentFilterClass);
     }
   };
 
@@ -101,41 +95,21 @@
     imgUploadPhoto.style.filter = null;
     switch (currentFilter) {
       case 'chrome':
-        imgUploadPhoto.style.filter = getEffectChrome(effectLevelValue);
+        imgUploadPhoto.style.filter = 'grayscale(' + effectLevelValue + ')';
         break;
       case 'sepia':
-        imgUploadPhoto.style.filter = getEffectSepia(effectLevelValue);
+        imgUploadPhoto.style.filter = 'sepia(' + effectLevelValue + ')';
         break;
       case 'marvin':
-        imgUploadPhoto.style.filter = getEffectMarvin(effectLevelValue);
+        imgUploadPhoto.style.filter = 'invert(' + effectLevelValue * DEFAULT_EFFECT_PIN + '%)';
         break;
       case 'phobos':
-        imgUploadPhoto.style.filter = getEffectPhobos(effectLevelValue);
+        imgUploadPhoto.style.filter = 'blur(' + effectLevelValue * MAX_EFFACT_VALUE + 'px)';
         break;
       case 'heat':
-        imgUploadPhoto.style.filter = getEffectHeat(effectLevelValue);
+        imgUploadPhoto.style.filter = 'brightness(' + (effectLevelValue * (MAX_EFFACT_VALUE - MIN_EFFECT_VALUE) + MIN_EFFECT_VALUE) + ')';
         break;
     }
-  };
-
-  var getEffectChrome = function (value) {
-    return 'grayscale(' + value + ')';
-  };
-
-  var getEffectSepia = function (value) {
-    return 'sepia(' + value + ')';
-  };
-
-  var getEffectMarvin = function (value) {
-    return 'invert(' + value * DEFAULT_EFFECT_PIN + '%)';
-  };
-
-  var getEffectPhobos = function (value) {
-    return 'blur(' + value * MAX_EFFACT_VALUE + 'px)';
-  };
-
-  var getEffectHeat = function (value) {
-    return 'brightness(' + (value * (MAX_EFFACT_VALUE - MIN_EFFECT_VALUE) + MIN_EFFECT_VALUE) + ')';
   };
 
   window.effects = {

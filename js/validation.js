@@ -31,10 +31,10 @@
   inputHashtag.addEventListener('input', function (evt) {
     var hashtagsArray = evt.target.value.toLowerCase().split(' ');
 
-    for (var i = 0; i < hashtagsArray.length; i++) {
-      var hashtag = hashtagsArray[i];
+    hashtagsArray.forEach(function (item) {
+      var hashtag = item;
 
-      if (hashtagsArray[i] === '#') {
+      if (hashtag === '#') {
         evt.target.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
         setErrorRedLine(evt);
         return;
@@ -69,9 +69,8 @@
         setErrorRedLine(evt);
         return;
       }
-
       evt.target.setCustomValidity('');
       evt.target.style.border = '';
-    }
+    });
   });
 })();
