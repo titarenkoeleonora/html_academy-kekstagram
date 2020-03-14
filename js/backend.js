@@ -2,6 +2,8 @@
 
 
 (function () {
+  var GET = 'GET';
+  var POST = 'POST';
   var URL = 'https://js.dump.academy/kekstagram/data';
   var URL_POST = 'https://js.dump.academy/kekstagram';
   var TIMEOUT = 10000;
@@ -31,13 +33,13 @@
 
   window.download = function (onLoad, onError) {
     var xhr = setup(onLoad, onError);
-    xhr.open('GET', URL);
+    xhr.open(GET, URL);
     xhr.send();
   };
 
   window.upload = function (data, onLoad, onError) {
     var xhr = setup(onLoad, onError);
-    xhr.open('POST', URL_POST);
+    xhr.open(POST, URL_POST);
     xhr.send(data);
   };
 
