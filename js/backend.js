@@ -11,7 +11,7 @@
 
   var setup = function (load, error) {
     var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
+    xhr.responseType = 'jsonp';
 
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS_OK) {
