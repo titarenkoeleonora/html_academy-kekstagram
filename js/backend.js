@@ -4,8 +4,8 @@
 (function () {
   var GET = 'GET';
   var POST = 'POST';
-  var URL = 'https://javascript.pages.academy/kekstagram/data';
-  var URL_POST = 'https://javascript.pages.academy/kekstagram';
+  var URL = 'https://24.javascript.pages.academy/kekstagram/data';
+  var URL_POST = 'https://24.javascript.pages.academy/kekstagram';
   var TIMEOUT = 10000;
   var STATUS_OK = 200;
 
